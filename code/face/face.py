@@ -8,6 +8,8 @@ import time
 from random import Random
 from math import pi, sin, cos
 
+from pathlib import PurePath
+
 class Face:
     def __init__(
             self,
@@ -26,6 +28,7 @@ class Face:
             # Specify file name in case output should be
             # image file
             face_file = './face.png',
+            filename_append_counter = False,
 
             eye_pos = (100,80),
             eye_size = (100,80),
@@ -68,6 +71,7 @@ class Face:
         self.reset_pin = reset_pin
         self.spi_baudrate = spi_baudrate
         self.face_file = face_file
+        self.filename_append_counter = filename_append_counter
         self.eye_pos = eye_pos
         self.eye_size = eye_size
         self.eye_corn_rad = eye_corn_rad
@@ -100,6 +104,7 @@ class Face:
         self.ani_talk = ani_talk
 
         # Internal attributes
+        self.__file_counter = 0
         self.__ani_blink = False                # Blink indicator
         self.__ani_backup_eye_left_closed = 0
         self.__ani_backup_eye_right_closed = 0
@@ -144,7 +149,14 @@ class Face:
     def output(self):
         # Output to file
         if "file"==self.outdev:
-            self.face.save(self.face_file)
+            if True==self.filename_append_counter:
+                outfile = str(PurePath(self.face_file).parent) + "/" + str(PurePath(self.face_file).stem) + "_" + str(self.__file_counter).rjust(8, "0") + str(PurePath(self.face_file).suffix)
+
+                # Do not forget to increment counter!
+                self.__file_counter += 1
+            else:
+                outfile=self.face_file
+            self.face.save(outfile)
         # Output to display
         if "display"==self.outdev:
             self.disp.image(self.face)
