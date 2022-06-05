@@ -25,39 +25,57 @@ table.
 
 #### Execution of Python code
 If not already done, install Python virtual environment:
+
     $ pipenv install
+
 Launch Python shell from within Python virtual environment:
+
     $ pipenv run python
+
 Within the Python shell start face animation:
+
     >>> import face
     >>> f = face.Face(outdev="display")
     >>> f.animate()
+
 Now, you can e.g. move the eyes (pupils):
+
     >>> f.pup_pos_hor=-1 	# Looking left
     >>> f.pup_pos_hor=1 	# Looking right
     >>> f.pup_pos_vert=-1	# Looking up
     >>> f.pup_pos_vert=0	# Looking straight
+
 You can also set the mood:
+
     >>> f.mood="sad"
     >>> f.mood="happy"
     >>> f.mood="surprised"
 
 ### Output to file
 If not already done, install Python virtual environment:
+
     $ pipenv install
+
 Launch Python shell from within Python virtual environment:
+
     $ pipenv run python
+
 Within the Python shell start face animation. The default output file
 is ``face.png`` in the current working directory:
+
     >>> import face
     >>> f = face.Face(outdev="file")
     >>> f.animate()
+
 Now, you can e.g. move the eyes (pupils):
+
     >>> f.pup_pos_hor=-1 	# Looking left
     >>> f.pup_pos_hor=1 	# Looking right
     >>> f.pup_pos_vert=-1	# Looking up
     >>> f.pup_pos_vert=0	# Looking straight
+
 You can also set the mood:
+
     >>> f.mood="sad"
     >>> f.mood="happy"
     >>> f.mood="surprised"
