@@ -1,3 +1,7 @@
+import digitalio
+import board
+from adafruit_rgb_display import ili9341
+
 from PIL import Image, ImageDraw
 import threading
 import time
@@ -9,6 +13,18 @@ class Face:
             self,
             face_size = (320,240),
             face_color = (255,255,255),
+
+            # The output can be either file or ILI9341 display viua SPI
+            outdev = "file",                    # file/display
+
+            # Configuration für ILI9341 display via SPI
+            cs_pin = digitalio.DigitalInOut(board.D23),
+            dc_pin = digitalio.DigitalInOut(board.D24),
+            reset_pin = digitalio.DigitalInOut(board.D25),
+            spi_baudrate = 24000000,
+
+            # Specify file name in case output should be
+            # image file
             face_file = './face.png',
 
             eye_pos = (100,80),
@@ -45,6 +61,12 @@ class Face:
         ):
         self.face_size = face_size
         self.face_color = face_color
+        self.outdev = outdev
+        self.disp = None                        # Initial value
+        self.cs_pin = cs_pin
+        self.dc_pin = dc_pin
+        self.reset_pin = reset_pin
+        self.spi_baudrate = spi_baudrate
         self.face_file = face_file
         self.eye_pos = eye_pos
         self.eye_size = eye_size
@@ -83,7 +105,21 @@ class Face:
         self.__ani_backup_eye_right_closed = 0
         self.__ani_pup_move = False             # Rand eye move indicator
 
-        # Create a face blank image
+        #
+        if "display"==self.outdev:
+            # Create spi and display instance
+            spi = board.SPI()
+            self.disp = ili9341.ILI9341(
+                spi,
+                rotation=90,
+                cs=self.cs_pin,
+                dc=self.dc_pin,
+                rst=self.reset_pin,
+                baudrate=self.spi_baudrate
+            )
+
+        # Create a face blank image. This is needed regardless if the
+        # output device will be a file or ILI9341 display via SPI
         self.face = Image.new('RGB',
             self.face_size,
             color=self.face_color,
@@ -92,7 +128,7 @@ class Face:
         # eyes and mouth
         self.draw = ImageDraw.Draw(self.face)
 
-        # Initialize the face
+        # Initialize the face (no output)
         self.update()
 
     def update(self):
@@ -102,13 +138,16 @@ class Face:
         self.mouth_erase()
         self.mouth()
 
-    def show(self):
-        self.face.show()
+#    def show(self):
+#        self.face.show()
 
-    def save(self, file=None):
-        if not None==file:
-            self.face_file = file
-        self.face.save(self.face_file)
+    def output(self):
+        # Output to file
+        if "file"==self.outdev:
+            self.face.save(self.face_file)
+        # Output to display
+        if "display"==self.outdev:
+            self.disp.image(self.face)
 
     def animation_thread(self):
         # Initiate indendent Random instances
@@ -178,7 +217,7 @@ class Face:
 
             # Update & output
             self.update()
-            self.save()
+            self.output()
 
             # Wait until update period has passed
             dt = self.ani_upd_per - (time.time() - t0)
