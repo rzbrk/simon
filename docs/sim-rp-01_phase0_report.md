@@ -60,7 +60,7 @@ attached. The dimensions in the following figures are not to scale and for
 illustration of the design concept, only.
 
 ![SIMON mechanical design - front
-view](/assets/images/simon_design_concept_01.png)<br>
+view](./assets/images/simon_design_concept_01.png)<br>
 SIMON mechanical design - exploded view (front)
 
 The back shell (green part) will be magnetically attached to the front shell -
@@ -69,7 +69,7 @@ provided by a circumferencing lip and the round "ears" on the left and right
 side of SIMON.
 
 ![SIMON mechanical design - back
-view](/assets/images/simon_design_concept_02.png)<br>
+view](./assets/images/simon_design_concept_02.png)<br>
 SIMON mechanical design - exploded view (back)
 
 The back shell will also have a "back pack". The back pack provides extra space
@@ -84,7 +84,7 @@ preferrably also magnetically for easier access. To hold the cage in propper
 position the inside of the front shell shall feature guiding rails for the
 cage.
 
-![SIMON mechanical design - closed half shells](/assets/images/simon_design_concept_03.png)<br>
+![SIMON mechanical design - closed half shells](./assets/images/simon_design_concept_03.png)<br>
 SIMON mechanical design
 
 SIMON can be placed on a flat suface by placing the assembled sphere on a ring.
@@ -93,7 +93,7 @@ This also allows orienting SIMON to various directions.
 ### Electrical Design
 
 #### Block Diagram
-![SIMON block diagram](/assets/images/simon_prelimdesign.drawio.png "Preliminary design")
+![SIMON block diagram](./assets/images/simon_prelimdesign.drawio.png "Preliminary design")
 
 #### Raspberry Pi GPIO Pin Assignment
 See [sim-tn-01_raspi_gpio](sim-tn-01_raspi_gpio.md).
@@ -115,7 +115,7 @@ was build as shown in the figure below. The development board features most of
 the components forseen for the final model of SIMON. For the "fake" thruster
 and the vaporizer a separate development model will be build.
 
-![SIMON breadboard](/assets/images/breadboard.jpg)<br>
+![SIMON breadboard](./assets/images/breadboard.jpg)<br>
 SIMON development model
 
 ### Assessments, Tests and SW Prototypes
