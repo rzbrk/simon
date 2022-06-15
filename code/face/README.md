@@ -51,3 +51,7 @@ files can be used to create an video or animated gif, e.g. using ffmpeg:
     $ cd out/
     $ ffmpeg -framerate 1 -i face_%8d.png face.gif
 
+Example output:
+
+![SIMON face](./face.gif)<br>
+SIMON animated face
