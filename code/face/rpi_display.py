@@ -10,10 +10,10 @@ import face
 ani_upd_per = 1.0 # seconds
 
 # Define the pins the display is connected to
-cs_pin = digitalio.DigitalInOut(board.D23),
-dc_pin = digitalio.DigitalInOut(board.D24),
-reset_pin = digitalio.DigitalInOut(board.D25),
-spi_baudrate = 24000000,
+cs_pin = digitalio.DigitalInOut(board.D23)
+dc_pin = digitalio.DigitalInOut(board.D24)
+reset_pin = digitalio.DigitalInOut(board.D25)
+spi_baudrate = 24000000
 
 # Create instance for display connected via SPI
 disp = ili9341.ILI9341(
@@ -22,8 +22,8 @@ disp = ili9341.ILI9341(
     cs=cs_pin,
     dc=dc_pin,
     rst=reset_pin,
-    baudrate=spi_baudrate
-    )
+    baudrate=spi_baudrate,
+)
 
 # Create face object
 face = face.Face()
@@ -38,7 +38,7 @@ try:
         face.animation_thread()
 
         # Output face frame to display
-##        disp.image(face.face)
+        disp.image(face.face)
 
         # Wait until update period has passed
         dt = ani_upd_per - (time.time() - t0)
