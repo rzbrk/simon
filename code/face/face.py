@@ -79,28 +79,25 @@ class Face:
         self.__ani_pup_move = False             # Rand eye move indicator
 
         # Object that holds the current frame for the face
-        self.face = Image.new('RGB',
+        self.frame = Image.new('RGB',
             self.face_size,
             color=self.face_color,
         )
         # Get a drawing context for the face to draw
-        # eyes and mouth
-        self.draw = ImageDraw.Draw(self.face)
+        # e.g. eyes and mouth
+        self.dc = ImageDraw.Draw(self.frame)
 
         # Initialize the face (no output)
-        self.update()
+        self.draw()
 
-    def update(self):
+    def draw(self):
         self.eyes_erase()
         self.eyes()
         self.pupils()
         self.mouth_erase()
         self.mouth()
 
-#    def show(self):
-#        self.face.show()
-
-    def animation_thread(self):
+    def update(self):
         # Initiate independent Random instances
         r1 = Random()   # Eye blinking
         r2 = Random()   # Movement of pupils
@@ -162,8 +159,8 @@ class Face:
         if self.ani_talk:
             self.mouth_open = not self.mouth_open
 
-        # Update the current face frame
-        self.update()
+        # Draw the current face frame
+        self.draw()
 
     def eyes_erase(self):
         eyes_box=[
@@ -172,7 +169,7 @@ class Face:
             self.face_size[0]-self.eye_pos[0]+self.eye_size[0]/2,
             self.eye_pos[1]+self.eye_size[1]/2
         ]
-        self.draw.rectangle(
+        self.dc.rectangle(
             eyes_box,
             fill = self.face_color,
         )
@@ -185,7 +182,7 @@ class Face:
             self.eye_pos[0]+self.eye_size[0]/2,
             self.eye_pos[1]+self.eye_size[1]*(1-self.eye_left_closed)/2
         ]
-        self.draw.rounded_rectangle(
+        self.dc.rounded_rectangle(
             eye_left_box,
             radius = self.eye_corn_rad,
             fill = self.eye_color,
@@ -200,7 +197,7 @@ class Face:
             self.face_size[0]-self.eye_pos[0]+self.eye_size[0]/2,
             self.eye_pos[1]+self.eye_size[1]*(1-self.eye_right_closed)/2
         ]
-        self.draw.rounded_rectangle(
+        self.dc.rounded_rectangle(
             eye_right_box,
             radius = self.eye_corn_rad,
             fill = self.eye_color,
@@ -234,7 +231,7 @@ class Face:
                 epx+ps/2+(esx/2-ps/2-elw)*pph,
                 epy+ps/2+(esy/2*ecl-ps/2-elw)*ppv,
             ]
-            self.draw.rounded_rectangle(
+            self.dc.rounded_rectangle(
                 pup_left_box,
                 radius = ps,
                 fill = self.pup_color
@@ -248,7 +245,7 @@ class Face:
                 fsx-epx+ps/2+(esx/2-ps/2-elw)*pph,
                 epy+ps/2+(esy/2*ecl-ps/2-elw)*ppv,
             ]
-            self.draw.rounded_rectangle(
+            self.dc.rounded_rectangle(
                 pup_right_box,
                 radius = ps,
                 fill = self.pup_color
@@ -267,7 +264,7 @@ class Face:
             self.mouth_pos[0]+self.mouth_size[1]/2,
             self.mouth_pos[1]+self.mouth_size[1]/2,
         ]
-        self.draw.rounded_rectangle(
+        self.dc.rounded_rectangle(
             mouth_box,
             radius = self.mouth_size[1]/2,
             fill = self.mouth_color
@@ -303,14 +300,14 @@ class Face:
 
         # Distinguish between open/closed mouth
         if self.mouth_open:
-            self.draw.polygon(
+            self.dc.polygon(
                 mouth_polygon,
                 outline=self.mouth_line_color,
                 fill=self.mouth_color,
                 width=self.mouth_line_width,
             )
         else:
-            self.draw.line(
+            self.dc.line(
                 mouth_polygon,
                 fill=self.mouth_color,
                 width=self.mouth_line_width,
@@ -325,7 +322,7 @@ class Face:
             self.mouth_pos[1]+self.mouth_size[1]/2+self.mouth_line_width,
         ]
 
-        self.draw.rectangle(
+        self.dc.rectangle(
             mouth_box,
             outline=self.face_color,
             fill=self.face_color,

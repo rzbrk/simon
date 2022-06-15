@@ -35,10 +35,10 @@ try:
         t0 = time.time()
 
         # Update face frame
-        face.animation_thread()
+        face.update()
 
         # Output face frame to display
-        disp.image(face.face)
+        disp.image(face.frame)
 
         # Wait until update period has passed
         dt = ani_upd_per - (time.time() - t0)
