@@ -1,4 +1,10 @@
 #!/bin/env python3
+"""
+    Example program to output an animated face
+    to a ILI9341 display (320x240 pixel) connected
+    to the SPI0 interface of a Raspberry Pi single
+    board computer. Tested with Raspberry Pi 3.
+"""
 
 import time
 import digitalio
