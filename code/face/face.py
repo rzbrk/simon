@@ -1,10 +1,10 @@
-import digitalio
-import board
-from adafruit_rgb_display import ili9341
-
+##import digitalio
+##import board
+##from adafruit_rgb_display import ili9341
+##
 from PIL import Image, ImageDraw
-import threading
-import time
+##import threading
+##import time
 from random import Random
 from math import pi, sin, cos
 
@@ -16,19 +16,19 @@ class Face:
             face_size = (320,240),
             face_color = (255,255,255),
 
-            # The output can be either file or ILI9341 display viua SPI
-            outdev = "file",                    # file/display
-
-            # Configuration für ILI9341 display via SPI
-            cs_pin = digitalio.DigitalInOut(board.D23),
-            dc_pin = digitalio.DigitalInOut(board.D24),
-            reset_pin = digitalio.DigitalInOut(board.D25),
-            spi_baudrate = 24000000,
-
-            # Specify file name in case output should be
-            # image file
-            face_file = './face.png',
-            filename_append_counter = False,
+##            # The output can be either file or ILI9341 display viua SPI
+##            outdev = "file",                    # file/display
+##
+##            # Configuration für ILI9341 display via SPI
+##            cs_pin = digitalio.DigitalInOut(board.D23),
+##            dc_pin = digitalio.DigitalInOut(board.D24),
+##            reset_pin = digitalio.DigitalInOut(board.D25),
+##            spi_baudrate = 24000000,
+##
+##            # Specify file name in case output should be
+##            # image file
+##            face_file = './face.png',
+##            filename_append_counter = False,
 
             eye_pos = (100,80),
             eye_size = (100,80),
@@ -54,7 +54,7 @@ class Face:
 
             mood = 'happy',                     # 'happy'/'sad'/'surprised'/
 
-            ani_upd_per = 1,                    # Seconds
+##            ani_upd_per = 1,                    # Seconds
             ani_blink_rate = 0.1,               # 0...1
             ani_blink_closed = 0.9,             # 0...1
             ani_pup_move_rate = 0.2,            # 0...1
@@ -64,14 +64,14 @@ class Face:
         ):
         self.face_size = face_size
         self.face_color = face_color
-        self.outdev = outdev
-        self.disp = None                        # Initial value
-        self.cs_pin = cs_pin
-        self.dc_pin = dc_pin
-        self.reset_pin = reset_pin
-        self.spi_baudrate = spi_baudrate
-        self.face_file = face_file
-        self.filename_append_counter = filename_append_counter
+##        self.outdev = outdev
+##        self.disp = None                        # Initial value
+##        self.cs_pin = cs_pin
+##        self.dc_pin = dc_pin
+##        self.reset_pin = reset_pin
+##        self.spi_baudrate = spi_baudrate
+##        self.face_file = face_file
+##        self.filename_append_counter = filename_append_counter
         self.eye_pos = eye_pos
         self.eye_size = eye_size
         self.eye_corn_rad = eye_corn_rad
@@ -94,8 +94,8 @@ class Face:
 
         self.mood = mood
 
-        self.ani_run = False                    # Semaphore animation
-        self.ani_upd_per = ani_upd_per
+##        self.ani_run = False                    # Semaphore animation
+##        self.ani_upd_per = ani_upd_per
         self.ani_blink_rate = ani_blink_rate
         self.ani_blink_closed = ani_blink_closed
         self.ani_pup_move_rate = ani_pup_move_rate
@@ -104,27 +104,28 @@ class Face:
         self.ani_talk = ani_talk
 
         # Internal attributes
-        self.__file_counter = 0
+##        self.__file_counter = 0
         self.__ani_blink = False                # Blink indicator
         self.__ani_backup_eye_left_closed = 0
         self.__ani_backup_eye_right_closed = 0
         self.__ani_pup_move = False             # Rand eye move indicator
 
-        #
-        if "display"==self.outdev:
-            # Create spi and display instance
-            spi = board.SPI()
-            self.disp = ili9341.ILI9341(
-                spi,
-                rotation=90,
-                cs=self.cs_pin,
-                dc=self.dc_pin,
-                rst=self.reset_pin,
-                baudrate=self.spi_baudrate
-            )
+##        #
+##        if "display"==self.outdev:
+##            # Create spi and display instance
+##            spi = board.SPI()
+##            self.disp = ili9341.ILI9341(
+##                spi,
+##                rotation=90,
+##                cs=self.cs_pin,
+##                dc=self.dc_pin,
+##                rst=self.reset_pin,
+##                baudrate=self.spi_baudrate
+##            )
 
-        # Create a face blank image. This is needed regardless if the
-        # output device will be a file or ILI9341 display via SPI
+##        # Create a face blank image. This is needed regardless if the
+##        # output device will be a file or ILI9341 display via SPI
+        # Object that holds the current frame for the face
         self.face = Image.new('RGB',
             self.face_size,
             color=self.face_color,
@@ -146,31 +147,32 @@ class Face:
 #    def show(self):
 #        self.face.show()
 
-    def output(self):
-        # Output to file
-        if "file"==self.outdev:
-            if True==self.filename_append_counter:
-                outfile = str(PurePath(self.face_file).parent) + "/" + str(PurePath(self.face_file).stem) + "_" + str(self.__file_counter).rjust(8, "0") + str(PurePath(self.face_file).suffix)
-
-                # Do not forget to increment counter!
-                self.__file_counter += 1
-            else:
-                outfile=self.face_file
-            self.face.save(outfile)
-        # Output to display
-        if "display"==self.outdev:
-            self.disp.image(self.face)
+##    def output(self):
+##        # Output to file
+##        if "file"==self.outdev:
+##            if True==self.filename_append_counter:
+##                outfile = str(PurePath(self.face_file).parent) + "/" + str(PurePath(self.face_file).stem) + "_" + str(self.__file_counter).rjust(8, "0") + str(PurePath(self.face_file).suffix)
+##
+##                # Do not forget to increment counter!
+##                self.__file_counter += 1
+##            else:
+##                outfile=self.face_file
+##            self.face.save(outfile)
+##        # Output to display
+##        if "display"==self.outdev:
+##            self.disp.image(self.face)
 
     def animation_thread(self):
-        # Initiate indendent Random instances
-        r1 = Random()
-        r2 = Random()
-        r3 = Random()
-        r4 = Random()
+        # Initiate independent Random instances
+        r1 = Random()   # Eye blinking
+        r2 = Random()   # Movement of pupils
+        r3 = Random()   # Horizontal displacement of pupils
+        r4 = Random()   # Vertical displacement of pupils
 
-        while self.ani_run:
-            # Time at start of loop
-            t0 = time.time()
+        if True:
+##        while self.ani_run:
+##            # Time at start of loop
+##            t0 = time.time()
 
             # Simulate blinking
             if self.__ani_blink:
@@ -227,24 +229,25 @@ class Face:
             if self.ani_talk:
                 self.mouth_open = not self.mouth_open
 
-            # Update & output
+            # Update the current face frame
+##            # Update & output
             self.update()
-            self.output()
-
-            # Wait until update period has passed
-            dt = self.ani_upd_per - (time.time() - t0)
-            if dt > 0:
-                time.sleep(dt)
-
-    def animate(self, stop=False):
-        if stop:
-            self.ani_run = False
-        else:
-            # If animation is not already running start it
-            if not self.ani_run:
-                self.ani_run = True
-                a = threading.Thread(target=self.animation_thread, daemon=True)
-                a.start()
+##            self.output()
+##
+##            # Wait until update period has passed
+##            dt = self.ani_upd_per - (time.time() - t0)
+##            if dt > 0:
+##                time.sleep(dt)
+##
+##    def animate(self, stop=False):
+##        if stop:
+##            self.ani_run = False
+##        else:
+##            # If animation is not already running start it
+##            if not self.ani_run:
+##                self.ani_run = True
+##                a = threading.Thread(target=self.animation_thread, daemon=True)
+##                a.start()
 
     def eyes_erase(self):
         eyes_box=[
