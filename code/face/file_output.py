@@ -32,7 +32,7 @@ try:
 
         # Output face frame to file
         if True==append_counter:
-            c_outfile = str(PurePath(outfile).parent) + "/" +             str(PurePath(outfile).stem) + "_" + str(counter).rjust(8, "0")n+ str(PurePath(outfile).suffix)
+            c_outfile = str(PurePath(outfile).parent) + "/" + str(PurePath(outfile).stem) + "_" + str(counter).rjust(8, "0") + str(PurePath(outfile).suffix)
             counter += 1
         else:
             c_outfile = outfile
