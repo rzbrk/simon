@@ -3,11 +3,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
-[packages]
-pillow = "*"
-adafruit-circuitpython-rgb-display = "*"
-
 [dev-packages]
 
 [requires]
 python_version = "3"
+
+[packages.3c8da18]
+path = "./../../lib/face"
+editable = true

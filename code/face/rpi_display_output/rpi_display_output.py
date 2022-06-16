@@ -1,4 +1,3 @@
-#!/bin/env python3
 """
     Example program to output an animated face
     to a ILI9341 display (320x240 pixel) connected
@@ -7,12 +6,15 @@
 """
 
 import time
+from threading import Thread
+
 import digitalio
 import board
 from adafruit_rgb_display import ili9341
 
 import face
 
+ani_run = False
 ani_upd_per = 1.0 # seconds
 
 # Define the pins the display is connected to
@@ -34,9 +36,8 @@ disp = ili9341.ILI9341(
 # Create face object
 face = face.Face()
 
-try:
-    print("Press Ctrl+c to exit.")
-    while True:
+def ani_thread():
+    while ani_run:
         # Time at start of loop
         t0 = time.time()
 
@@ -51,6 +52,15 @@ try:
         if dt > 0:
             time.sleep(dt)
 
-except KeyboardInterrupt:
-    print("Exiting loop.")
-    exit
+def animate(stop = False):
+    global ani_run
+
+    if stop:
+        ani_run = False
+    else:
+        if not ani_run:
+            ani_run = True
+            a = Thread(target=ani_thread, daemon=True)
+            a.start()
+
+
